@@ -2,7 +2,6 @@ package com.bookbook.service;
 
 import com.bookbook.dto.SignUpRequest;
 import com.bookbook.exception.UserIdExistsException;
-import com.bookbook.util.password.Encoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,33 +38,41 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private Encoder passwordEncoder;
-
     SignUpRequest user;
+    SignUpRequest userWithoutIntroduce;
 
     @BeforeEach
     void setUpUser() {
-        String nickname = "wisdom";
-        String password = "pwpwpwpw123";
-        String introduce = "introduce";
-        user = SignUpRequest.createSignUpRequest(
-                nickname,
-                passwordEncoder.hashPassword(password),
-                introduce
+        user = new SignUpRequest(
+                "wisdom",
+                "pwpwpwpw123",
+                "introduce"
+        );
+
+        userWithoutIntroduce = new SignUpRequest(
+                "jihye",
+                "pasdlfkjaslkdf123"
         );
     }
 
-    @DisplayName("유저가 정상적으로 회원가입에 성공합니다")
+    @DisplayName("선택 입력값인 introduce 값이 없어도 유저가 정상적으로 회원가입에 성공합니다")
     @Test
-    void signUp(){
+    void signUpWithoutIntroduce() {
+        userService.signUp(userWithoutIntroduce);
+        assertThat(user.getUserId()).isNotNull();
+    }
+
+    @DisplayName("선택 입력값인 introduce 값이 있는 상황에서 유저가 정상적으로 회원가입에 성공합니다")
+    @Test
+    void signUpWithIntroduce() {
         userService.signUp(user);
         assertThat(user.getUserId()).isNotNull();
     }
 
     @DisplayName("이미 가입된 아이디 입력으로 회원가입에 실패합니다")
     @Test
-    void test(){
+    void signUpWithDuplicatedId() {
+        userService.signUp(user);
         assertThatThrownBy(() -> userService.signUp(user))
                 .isInstanceOf(UserIdExistsException.class)
                 .hasMessageContaining("이미 가입된 아이디입니다.")

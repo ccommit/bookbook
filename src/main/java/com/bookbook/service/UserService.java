@@ -18,17 +18,12 @@ public class UserService {
     }
 
     public void signUp(SignUpRequest signUpRequest) {
-        String userId = signUpRequest.getUserId();
 
-        if (checkUniqueUserId(userId)) {
-            throw new UserIdExistsException("이미 가입된 아이디입니다. " + userId);
+        if (checkUniqueUserId(signUpRequest.getUserId())) {
+            throw new UserIdExistsException("이미 가입된 아이디입니다. " + signUpRequest.getUserId());
         }
 
-        signUpRequest = SignUpRequest.createSignUpRequest(
-                userId,
-                encoder.hashPassword(signUpRequest.getPassword()),
-                signUpRequest.getIntroduce()
-        );
+        signUpRequest.encryptPassword(signUpRequest.getPassword());
 
         userMapper.insertUser(signUpRequest);
     }

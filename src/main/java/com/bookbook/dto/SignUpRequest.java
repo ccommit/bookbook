@@ -1,11 +1,10 @@
 package com.bookbook.dto;
 
-
+import com.bookbook.util.password.BcryptEncoder;
+import com.bookbook.util.password.Encoder;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
-import lombok.ToString;
 
-@ToString
 @Getter
 public class SignUpRequest {
     private Long id;
@@ -16,15 +15,20 @@ public class SignUpRequest {
 
     private String introduce = "";
 
-    protected SignUpRequest() {}
+    private final Encoder encoder = new BcryptEncoder();
 
-    private SignUpRequest(String userId, String password, String introduce) {
+    public SignUpRequest(String userId, String password, String introduce) {
         this.userId = userId;
-        this.password = password;
         this.introduce = introduce;
+        encryptPassword(password);
     }
 
-    public static SignUpRequest createSignUpRequest(String userId, String password, String introduce) {
-        return new SignUpRequest(userId, password, introduce);
+    public SignUpRequest(String userId, String password) {
+        this.userId = userId;
+        encryptPassword(password);
+    }
+
+    public void encryptPassword(String password) {
+        this.password = encoder.hashPassword(password);
     }
 }
