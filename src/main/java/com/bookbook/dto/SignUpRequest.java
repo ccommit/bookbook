@@ -17,6 +17,8 @@ public class SignUpRequest {
 
     private final Encoder encoder = new BcryptEncoder();
 
+    private SignUpRequest() {}
+
     public SignUpRequest(String userId, String password, String introduce) {
         this.userId = userId;
         this.introduce = introduce;
