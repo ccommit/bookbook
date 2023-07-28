@@ -2,15 +2,15 @@ package com.bookbook.controller;
 
 
 import com.bookbook.dto.SignUpRequest;
+import com.bookbook.service.LoginService;
 import com.bookbook.service.UserService;
+import com.bookbook.util.response.CommonResponse;
+import com.bookbook.util.response.ResponseUtil;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.bookbook.util.ResponseEntityConstants.RESPONSE_OK;
 
 @RequestMapping("/api/users")
 @RestController
@@ -23,8 +23,8 @@ public class UserController {
     }
 
     @PostMapping
-    ResponseEntity<Void> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
+   public CommonResponse<Long> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         userService.signUp(signUpRequest);
-        return RESPONSE_OK;
+        return ResponseUtil.success(200, signUpRequest.getId());
     }
 }
