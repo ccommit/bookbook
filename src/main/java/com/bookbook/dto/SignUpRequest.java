@@ -15,8 +15,6 @@ public class SignUpRequest {
 
     private String introduce = "";
 
-    private final Encoder encoder = new BcryptEncoder();
-
     private SignUpRequest() {}
 
     public SignUpRequest(String userId, String password, String introduce) {
@@ -30,7 +28,7 @@ public class SignUpRequest {
         encryptPassword(password);
     }
 
-    public void encryptPassword(String password) {
-        this.password = encoder.hashPassword(password);
+    public void updateHashedPassword(final String hashedPassword) {
+        this.password = hashedPassword;
     }
 }
