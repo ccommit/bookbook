@@ -17,12 +17,12 @@ public class UserController {
 
     private final UserService userService;
 
-    public UserController(final UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping
-    public CommonResponse<Long> signUp(@RequestBody @Valid final SignUpRequest signUpRequest) {
+    public CommonResponse<Long> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         userService.signUp(signUpRequest);
         return ResponseUtil.success(200, signUpRequest.getId());
     }

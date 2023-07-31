@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.CONFLICT)
 public class UserIdExistsException extends RuntimeException {
-    public UserIdExistsException(final String message) {
+    public UserIdExistsException(String message) {
         super(message);
     }
 }
