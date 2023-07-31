@@ -40,18 +40,18 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    SignUpRequest user;
-    SignUpRequest userWithoutIntroduce;
+    SignUpRequest signUpRequest;
+    SignUpRequest signUpRequestWithoutIntroduce;
 
     @BeforeEach
     void setUpUser() {
-        user = new SignUpRequest(
+        signUpRequest = new SignUpRequest(
                 "wisdom",
                 "pwpwpwpw123",
                 "introduce"
         );
 
-        userWithoutIntroduce = new SignUpRequest(
+        signUpRequestWithoutIntroduce = new SignUpRequest(
                 "jihye",
                 "pasdlfkjaslkdf123"
         );
@@ -60,25 +60,25 @@ class UserServiceTest {
     @DisplayName("선택 입력값인 introduce 값이 없어도 유저가 정상적으로 회원가입에 성공합니다")
     @Test
     void signUpWithoutIntroduce() {
-        userService.signUp(userWithoutIntroduce);
-        assertThat(user.getUserId()).isNotNull();
+        userService.signUp(signUpRequestWithoutIntroduce);
+        assertThat(signUpRequest.getUserId()).isNotNull();
     }
 
     @DisplayName("선택 입력값인 introduce 값이 있는 상황에서 유저가 정상적으로 회원가입에 성공합니다")
     @Test
     void signUpWithIntroduce() {
-        userService.signUp(user);
-        assertThat(user.getUserId()).isNotNull();
+        userService.signUp(signUpRequest);
+        assertThat(signUpRequest.getUserId()).isNotNull();
     }
 
     @DisplayName("이미 가입된 아이디 입력으로 회원가입에 실패합니다")
     @Test
     void signUpWithDuplicatedId() {
-        userService.signUp(user);
-        assertThatThrownBy(() -> userService.signUp(user))
+        userService.signUp(signUpRequest);
+        assertThatThrownBy(() -> userService.signUp(signUpRequest))
                 .isInstanceOf(UserIdExistsException.class)
                 .hasMessageContaining("이미 가입된 아이디입니다.")
-                .hasMessageContaining(user.getUserId())
+                .hasMessageContaining(signUpRequest.getUserId())
         ;
     }
 }

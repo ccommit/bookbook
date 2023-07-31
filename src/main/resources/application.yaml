@@ -1,6 +1,8 @@
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.bookbook.dto
+  configuration:
+    map-underscore-to-camel-case: true
 
 debug: false
 management.endpoints.web.exposure.include: "*"

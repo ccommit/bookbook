@@ -1,7 +1,5 @@
 package com.bookbook.dto;
 
-import com.bookbook.util.password.BcryptEncoder;
-import com.bookbook.util.password.Encoder;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 
@@ -19,16 +17,16 @@ public class SignUpRequest {
 
     public SignUpRequest(String userId, String password, String introduce) {
         this.userId = userId;
+        this.password = password;
         this.introduce = introduce;
-        encryptPassword(password);
     }
 
     public SignUpRequest(String userId, String password) {
         this.userId = userId;
-        encryptPassword(password);
+        this.password = password;
     }
 
-    public void updateHashedPassword(final String hashedPassword) {
+    public void updateHashedPassword(String hashedPassword) {
         this.password = hashedPassword;
     }
 }

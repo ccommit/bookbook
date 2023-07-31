@@ -2,7 +2,6 @@ package com.bookbook.controller;
 
 
 import com.bookbook.dto.SignUpRequest;
-import com.bookbook.service.LoginService;
 import com.bookbook.service.UserService;
 import com.bookbook.util.response.CommonResponse;
 import com.bookbook.util.response.ResponseUtil;
@@ -23,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping
-   public CommonResponse<Long> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
+    public CommonResponse<Long> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         userService.signUp(signUpRequest);
         return ResponseUtil.success(200, signUpRequest.getId());
     }

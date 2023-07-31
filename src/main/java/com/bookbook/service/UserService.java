@@ -3,6 +3,7 @@ package com.bookbook.service;
 import com.bookbook.dto.SignUpRequest;
 import com.bookbook.exception.UserIdExistsException;
 import com.bookbook.mapper.UserMapper;
+import com.bookbook.util.password.Encoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,8 +24,7 @@ public class UserService {
         userMapper.insertUser(signUpRequest);
     }
 
-    public String encryptPassword(final String password) {
-        ;
+    public String encryptPassword(String password) {
         return passwordEncoder.hashPassword(password);
     }
 
