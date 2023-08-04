@@ -8,13 +8,16 @@ debug: false
 management.endpoints.web.exposure.include: "*"
 
 logging:
+  config: classpath:log4j2.xml
   level:
     com.com.bookbook: debug
     org.springframework.web.servlet: debug
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/bookbook
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/bookbook
     username: wisdom
     password: asdfasdf33
+
+
