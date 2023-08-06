@@ -1,10 +1,10 @@
 package com.bookbook.service;
 
 import com.bookbook.dto.user.*;
-import com.bookbook.exception.UserIdExistsException;
-import com.bookbook.exception.UserIdNotExistsException;
-import com.bookbook.exception.UserLoginException;
-import com.bookbook.exception.UserWrongPasswordException;
+import com.bookbook.exception.user.UserIdExistsException;
+import com.bookbook.exception.user.UserIdNotExistsException;
+import com.bookbook.exception.user.UserLoginException;
+import com.bookbook.exception.user.UserWrongPasswordException;
 import com.bookbook.mapper.UserMapper;
 import com.bookbook.util.password.Encoder;
 import org.slf4j.Logger;

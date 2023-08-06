@@ -3,7 +3,7 @@ package com.bookbook.interceptor;
 
 import com.bookbook.annotation.UserLoginRequired;
 import com.bookbook.dto.user.LoginUser;
-import com.bookbook.exception.UnAuthenticatedException;
+import com.bookbook.exception.user.UnAuthenticatedException;
 import com.bookbook.service.SessionLoginService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
