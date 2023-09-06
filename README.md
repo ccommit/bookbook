@@ -16,58 +16,8 @@
 ![img.png](erd.png)
 
 ## 주요 기능 Sequence Diagram
-### 글 작성 시퀀스
-```mermaid
-sequenceDiagram
-    autonumber
-    participant User
-    participant Controller
-    participant Validation
-    participant Service
-    participant Service
-    participant bookbook DB
-    User ->> +Controller: POST /api/v1/posts 글 작성 버튼 클릭
-    Controller ->> +Validation: 로그인 유무 체크 (session)
-    Validation -->> -Controller: 
-    Controller ->> +bookbook DB: 제목, 내용, 저자 검색으로 책 정보 가져오기
-    alt 책 정보 가져오기 성공
-        bookbook DB -->> Controller: bookId
-    else 책 정보 가져오기 실패
-        bookbook DB -->> -Controller: status code: 404  
-    end
-    Controller ->> +Validation: 게시글 제목, 본문 내용 null 체크
-    Validation -->> -Controller: 
-    Controller ->> +bookbook DB: Post 테이블에 게시글, 유저, 책 정보 INSERT
-    alt 게시글 저장 성공
-    bookbook DB -->> Controller: response: postId
-    else 게시글 저장 실패
-    bookbook DB -->> -User: status code: 400
-    end
-    Controller ->> -User: 글 정상 등록
-    Note right of User: response: postId / statusCode: 200
-```
-
-### 팔로우 유저 글(=관심글) 조회 시퀀스
-```mermaid
-sequenceDiagram
-    autonumber
-    participant User
-    participant Controller
-    participant Validation
-    participant Service
-    participant Service
-    participant follow DB
-    participant Post DB
-    User ->> +Controller: 관심글 버튼 클릭
-    Controller ->> +Validation: 로그인한 유저 정보 확인
-    Validation -->> -Controller: 
-    Controller ->> +follow DB: 팔로우 목록 가져오기
-    follow DB -->> -Controller: 
-    Validation ->> Service:  
-    Service ->> +Post DB: Post 테이블에서의 작성자 ID값과 팔로우 목록에 있는 ID값이 일치하는 글 정보 최신순으로 가져오기
-    Post DB -->> -Controller: List<PostOfFollowingUsers>
-    Controller ->> -User: 관심글 정상 조회
-```
+![img.png](writing-sequcen.png)
+![img_1.png](follow-post.png)
 
 ## 프로젝트 화면 구성도
 [카카오 오븐 링크](https://ovenapp.io/project/EqwIwDpbfiX5Xn0w1QlxaYILAlDOyK6e#TBI5C)
