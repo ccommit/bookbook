@@ -10,7 +10,6 @@ management.endpoints.web.exposure.include: "*"
 logging:
   config: classpath:log4j2.xml
   level:
-    com.com.bookbook: debug
     org.springframework.web.servlet: debug
 
 spring:

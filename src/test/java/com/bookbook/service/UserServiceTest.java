@@ -1,7 +1,7 @@
 package com.bookbook.service;
 
-import com.bookbook.dto.SignUpRequest;
-import com.bookbook.exception.UserIdExistsException;
+import com.bookbook.dto.user.SignUpRequest;
+import com.bookbook.exception.user.UserIdExistsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

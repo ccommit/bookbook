@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @UserLoginRequired
-    @DeleteMapping("/me")
+    @PatchMapping("/me")
     public CommonResponse<Long> deleteUserOfMine(
             @RequestBody WithdrawalRequest withdrawalRequest,
             @IfLogin LoginUser loginUser) {
@@ -54,7 +54,7 @@ public class UserController {
     }
 
     @AdminLoginRequired
-    @DeleteMapping("/{userId}")
+    @PatchMapping("/{userId}")
     public CommonResponse<String> deleteUser(@PathVariable String userId) {
         userService.deleteUser(userId);
         return ResponseUtil.success(200, userId);
@@ -67,14 +67,14 @@ public class UserController {
     }
 
     @UserLoginRequired
-    @PutMapping("/me/password")
+    @PatchMapping("/me/password")
     public CommonResponse<Long> updatePassword(@IfLogin LoginUser loginUser, @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
         userService.updatePassword(loginUser, passwordUpdateRequest);
         return ResponseUtil.success(200, loginUser.getId());
     }
 
     @UserLoginRequired
-    @PutMapping("/me/introduce")
+    @PatchMapping("/me/introduce")
     public CommonResponse<Long> updateIntroduce(@IfLogin LoginUser loginUser, @RequestBody IntroduceUpdateRequest introduceUpdateRequest) {
         userService.updateIntroduce(loginUser, introduceUpdateRequest);
         return ResponseUtil.success(200, loginUser.getId());
