@@ -15,7 +15,12 @@ public class UserInfo {
     private final String role;
     private final String introduce;
 
-    private UserInfo(Long id, String userId, String hashedPassword, String role, String introduce) {
+    private UserInfo(
+            Long id,
+            String userId,
+            String hashedPassword,
+            String role,
+            String introduce) {
         this.id = id;
         this.userId = userId;
         this.hashedPassword = hashedPassword;

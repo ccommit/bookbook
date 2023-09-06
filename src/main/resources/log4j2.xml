@@ -1,31 +1,80 @@
-<Configuration status="INFO">
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="30">
+    <!--변수 설정-->
     <Properties>
-        <Property name="LOG_PATTERN">%d{HH:mm:ss.SSS} [%p] --- [%10.50t] %-1.50c{1.}.%-1.20M:%L: %m%n%ex</Property>
+        <Property name="BASE_DIR">./logs</Property> <!--로그 파일 경로-->
+        <Property name="LOG_FORMAT">[%date{yyyy-MM-dd HH:mm:ss}][%level][%file:%line] %msg%n</Property><!--로그 출력 형태-->
     </Properties>
 
     <Appenders>
-        <Console name="consoleAppender" target="SYSTEM_OUT">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
+        <!-- 콘솔 로그-->
+        <Console name="Console-Appneder" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_FORMAT}"/>
         </Console>
-        <RollingFile name="fileAppender" fileName="logs/bookbook.log"
-                     filePattern="logs/$${date:yyyy-MM}/dev-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>
+
+        <!-- 로그 파일-->
+        <RollingFile name="File-Appneder" fileName="${BASE_DIR}/log.log" filePattern="${BASE_DIR}/%d{yyyy-MM-dd}.log.zip">
+            <PatternLayout pattern="${LOG_FORMAT}"/>
             <Policies>
-                <TimeBasedTriggeringPolicy />
-                <SizeBasedTriggeringPolicy size="100 MB"/>
+                <SizeBasedTriggeringPolicy size="15MB"/>                  <!-- 15MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/> <!-- 일별 로그 파일 생성-->
             </Policies>
-            <DefaultRolloverStrategy max="30"/>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${BASE_DIR}">
+                    <IfAccumulatedFileCount exceeds="4"/>   <!-- log 파일이 4개 이상일때 예전 log 파일 삭제 -->
+                    <IfFileName glob="*.log"/>   <!-- 삭제할 파일명 -->
+                    <IfLastModified age="3d"/>   <!-- 3일이 경과한 로그파일은 자동 삭제 -->
+                </Delete>
+            </DefaultRolloverStrategy>
         </RollingFile>
-        <File name="ErrorFile" fileName="logs/error.log">
-            <PatternLayout pattern="%d [%t] %-5level %logger{36} - %msg%n" />
-        </File>
+
+        <!-- 디버그 로그 파일-->
+        <RollingFile name="DEBUG-Appneder" fileName="${BASE_DIR}/debug.log" filePattern="${BASE_DIR}/%d{yyyy-MM-dd}.debug-logs.zip">
+            <PatternLayout pattern="${LOG_FORMAT}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="15MB"/>                  <!-- 15MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/> <!-- 일별 로그 파일 생성-->
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${BASE_DIR}">
+                    <IfAccumulatedFileCount exceeds="4"/>   <!-- log 파일이 4개 이상일때 예전 log 파일 삭제 -->
+                    <IfFileName glob="*.log"/>   <!-- 삭제할 파일명 -->
+                    <IfLastModified age="3d"/>   <!-- 3일이 경과한 로그파일은 자동 삭제 -->
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 에러 로그 파일-->
+        <RollingFile name="ERROR-Appneder" fileName="${BASE_DIR}/error.log" filePattern="${BASE_DIR}/%d{yyyy-MM-dd}.error-logs.zip">
+            <PatternLayout pattern="${LOG_FORMAT}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="15MB"/>                  <!-- 15MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/> <!-- 일별 로그 파일 생성-->
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${BASE_DIR}">
+                    <IfAccumulatedFileCount exceeds="4"/>   <!-- log 파일이 4개 이상일때 예전 log 파일 삭제 -->
+                    <IfFileName glob="*.log"/>   <!-- 삭제할 파일명 -->
+                    <IfLastModified age="3d"/>   <!-- 3일이 경과한 로그파일은 자동 삭제 -->
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
-        <Root level="error">
-            <AppenderRef ref="consoleAppender" />
-            <AppenderRef ref="fileAppender" />
-            <AppenderRef ref="ErrorFile" />
+        <Root level="INFO">
+            <AppenderRef ref="Console-Appneder"/>
+            <AppenderRef ref="File-Appneder"/>
         </Root>
+
+        <!-- springframework에서 발생하는 DEBUG 출력 -->
+        <Logger name="org.springframework" level="DEBUG" additivity="false">
+            <AppenderRef ref="DEBUG-Appneder"/>
+        </Logger>
+
+        <!-- 내 패키지에서 발생하는 error 출력 -->
+        <Logger name="com.bookbook" level="ERROR" additivity="false">
+            <AppenderRef ref="ERROR-Appneder"/>
+        </Logger>
     </Loggers>
 </Configuration>

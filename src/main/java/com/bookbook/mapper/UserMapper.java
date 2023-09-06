@@ -1,9 +1,9 @@
 package com.bookbook.mapper;
 
-import com.bookbook.dto.user.UserInfo;
-import com.bookbook.dto.user.SignUpRequest;
-import com.bookbook.dto.user.UserProfileResponse;
 import com.bookbook.dto.user.LoginUser;
+import com.bookbook.dto.user.SignUpRequest;
+import com.bookbook.dto.user.UserInfo;
+import com.bookbook.dto.user.UserProfileResponse;
 import org.apache.ibatis.annotations.Mapper;
 
 /*
@@ -19,8 +19,6 @@ public interface UserMapper {
     boolean existsByUserId(String userId);
 
     UserInfo findByActiveUserId(String userId);
-
-    UserInfo findById(Long Id);
 
     void deleteUser(Long id);
 

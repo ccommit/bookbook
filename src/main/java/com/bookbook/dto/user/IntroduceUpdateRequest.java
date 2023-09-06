@@ -15,8 +15,4 @@ public class IntroduceUpdateRequest {
     public IntroduceUpdateRequest(String introduce) {
         this.introduce = introduce;
     }
-
-    public String getIntroduce() {
-        return introduce;
-    }
 }

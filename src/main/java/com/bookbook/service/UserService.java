@@ -1,21 +1,18 @@
 package com.bookbook.service;
 
 import com.bookbook.dto.user.*;
-import com.bookbook.exception.user.UserIdExistsException;
-import com.bookbook.exception.user.UserIdNotExistsException;
-import com.bookbook.exception.user.UserLoginException;
-import com.bookbook.exception.user.UserWrongPasswordException;
+import com.bookbook.exception.user.*;
 import com.bookbook.mapper.UserMapper;
 import com.bookbook.util.password.Encoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
     private final UserMapper userMapper;
     private final Encoder passwordEncoder;
-    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static final Logger logger = LogManager.getLogger(UserService.class);
 
     public UserService(UserMapper userMapper, Encoder passwordEncoder) {
         this.userMapper = userMapper;
@@ -30,8 +27,8 @@ public class UserService {
         try {
             userMapper.insertUser(signUpRequest);
         } catch (Exception exception) {
-            logger.error(exception.getMessage());
-            throw new RuntimeException(exception);
+            logger.error("회원가입 중 오류가 발생했습니다.", exception);
+            throw new UserRegistrationException("회원가입 중 오류가 발생했습니다.", exception);
         }
     }
 
@@ -47,8 +44,8 @@ public class UserService {
         try {
             return userMapper.findUserProfile(loginUser);
         } catch (Exception exception) {
-            logger.error(exception.getMessage());
-            throw new RuntimeException(exception);
+            logger.error("유저 프로필 조회 중 오류가 발생했습니다.", exception);
+            throw new UserFindingException("유저 프로필 조회 중 오류가 발생했습니다.", exception);
         }
     }
 
@@ -64,8 +61,8 @@ public class UserService {
         try {
             userMapper.deleteUser(loginUser.getId());
         } catch (Exception exception) {
-            logger.error(exception.getMessage());
-            throw new RuntimeException(exception);
+            logger.error("유저 회원 탈퇴 중 오류가 발생했습니다.", exception);
+            throw new UserDeletingException("유저 회원 탈퇴 중 오류가 발생했습니다.", exception);
         }
     }
 
@@ -78,8 +75,8 @@ public class UserService {
         try {
             userMapper.deleteUser(userInfo.getId());
         } catch (Exception exception) {
-            logger.error(exception.getMessage());
-            throw new RuntimeException(exception);
+            logger.error("관리자에 의한 회원 탈퇴 처리 중 오류가 발생했습니다.", exception);
+            throw new UserDeletingException("관리자에 의한 회원 탈퇴 처리 중 오류가 발생했습니다.", exception);
         }
     }
 
@@ -92,8 +89,8 @@ public class UserService {
         try {
             userMapper.updatePassword(loginUser);
         } catch (Exception exception) {
-            logger.error(exception.getMessage());
-            throw new RuntimeException(exception);
+            logger.error(exception);
+            throw new UserUpdatingException("비밀번호 수정 중 오류가 발생했습니다.", exception);
         }
     }
 
@@ -103,8 +100,8 @@ public class UserService {
         try {
             userMapper.updateIntroduce(loginUser);
         } catch (Exception exception) {
-            logger.error(exception.getMessage());
-            throw new RuntimeException(exception);
+            logger.error("introduce 정보 수정 중 오류가 발생했습니다.", exception);
+            throw new UserUpdatingException("introduce 정보 수정 중 오류가 발생했습니다.", exception);
         }
     }
 
@@ -112,8 +109,8 @@ public class UserService {
         try {
             return userMapper.existsByUserId(userId);
         } catch (Exception exception) {
-            logger.error(exception.getMessage());
-            throw new RuntimeException(exception);
+            logger.error("Id 값이 유일한 값인지 확인 중 오류가 발생했습니다.", exception);
+            throw new UserIdDuplicationException("Id 값이 유일한 값인지 확인 중 오류가 발생했습니다", exception);
         }
     }
 }

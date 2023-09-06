@@ -10,7 +10,7 @@
     </insert>
 
     <select id="existsByUserId" parameterType="java.lang.String" resultType="boolean">
-        SELECT EXISTS (SELECT 1 FROM user WHERE user_id = #{userId});
+        SELECT EXISTS (SELECT 1 FROM user WHERE user_id = #{userId})
     </select>
 
     <select id="findByActiveUserId" parameterType="java.lang.String" resultType="com.bookbook.dto.user.UserInfo">
@@ -18,20 +18,7 @@
         FROM user
         WHERE user_id = #{userId}
         AND withdrawal = 0
-        ;
     </select>
-
-    <select id="findById" parameterType="java.lang.Long" resultType="com.bookbook.dto.user.UserInfo">
-        SELECT id, user_id, hashed_password, role, introduce
-        FROM user
-        WHERE id = #{id};
-    </select>
-
-<!--    <update id="deleteUser" parameterType="String">-->
-<!--        UPDATE user-->
-<!--        SET is_deleted = 1-->
-<!--        WHERE user_id = #{userId}-->
-<!--    </update>-->
 
     <update id="deleteUser" parameterType="java.lang.Long">
         UPDATE user

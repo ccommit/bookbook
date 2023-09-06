@@ -20,10 +20,6 @@ public class LoginUser {
         return userRole == UserRole.ADMIN;
     }
 
-    public boolean hasAdminAuthority() {
-        return userRole == UserRole.ADMIN;
-    }
-
     public void updateHashedPassword(String hashedPassword) {
         this.hashedPassword = hashedPassword;
     }
