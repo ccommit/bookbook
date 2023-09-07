@@ -2,15 +2,16 @@
 - 책을 읽고 생각을 공유하는 SNS 백엔드 서버
 
 ## 목적
-- SNS 기능들을 직접 구현함으로써 백엔드 시스템에 대해 이해
-- 읽기 좋은 코드를 만들기 위해서는 어떻게 해야하는지 고민하고 구현
-
-## 기술 스택
-- Java, Spring Boot, Gradle, Mybatis, Mysql
+- SNS 기능들(댓글, 알람, 팔로잉)을 직접 구현함으로써 백엔드 시스템에 대해 이해
+- 대용량 트래픽 처리 이해 
+- 유지보수 및 가독성을 고려한 코드 작성
 
 ## 기술적인 집중 요소
 - 라이브러리 및 기능 추가 시 이유 있는 선택과 사용 목적 고려 
 - 객체지향의 기본 원리
+
+## 기술 스택
+- Java 17, Spring Boot 3.1.1, Gradle, Mybatis, Mysql
 
 ## Entity Relationship Diagram (ERD)
 ![img.png](erd.png)
