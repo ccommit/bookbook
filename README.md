@@ -14,11 +14,11 @@
 - Java 17, Spring Boot 3.1.1, Gradle, Mybatis, Mysql
 
 ## Entity Relationship Diagram (ERD)
-![img.png](erd.png)
+![img.png](docs/erd.png)
 
 ## 주요 기능 Sequence Diagram
-![img.png](writing-sequcen.png)
-![img_1.png](follow-post.png)
+![img.png](docs/writing-sequcen.png)
+![img_1.png](docs/follow-post.png)
 
 ## 프로젝트 화면 구성도
 [카카오 오븐 링크](https://ovenapp.io/project/EqwIwDpbfiX5Xn0w1QlxaYILAlDOyK6e#TBI5C)

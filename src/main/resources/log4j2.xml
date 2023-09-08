@@ -2,18 +2,18 @@
 <Configuration status="INFO" monitorInterval="30">
     <!--변수 설정-->
     <Properties>
-        <Property name="BASE_DIR">./logs</Property> <!--로그 파일 경로-->
+        <Property name="BASE_DIR">${sys:user.dir}${sys:file.separator}logs</Property> <!--로그 파일 경로-->
         <Property name="LOG_FORMAT">[%date{yyyy-MM-dd HH:mm:ss}][%level][%file:%line] %msg%n</Property><!--로그 출력 형태-->
     </Properties>
 
     <Appenders>
         <!-- 콘솔 로그-->
-        <Console name="Console-Appneder" target="SYSTEM_OUT" follow="true">
+        <Console name="Console-Appender" target="SYSTEM_OUT" follow="true">
             <PatternLayout pattern="${LOG_FORMAT}"/>
         </Console>
 
         <!-- 로그 파일-->
-        <RollingFile name="File-Appneder" fileName="${BASE_DIR}/log.log" filePattern="${BASE_DIR}/%d{yyyy-MM-dd}.log.zip">
+        <RollingFile name="File-Appender" fileName="${BASE_DIR}${sys:file.separator}info.log" filePattern="${BASE_DIR}${sys:file.separator}%d{yyyy-MM-dd}.log.zip">
             <PatternLayout pattern="${LOG_FORMAT}"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="15MB"/>                  <!-- 15MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
@@ -29,7 +29,7 @@
         </RollingFile>
 
         <!-- 디버그 로그 파일-->
-        <RollingFile name="DEBUG-Appneder" fileName="${BASE_DIR}/debug.log" filePattern="${BASE_DIR}/%d{yyyy-MM-dd}.debug-logs.zip">
+        <RollingFile name="DEBUG-Appender" fileName="${BASE_DIR}${sys:file.separator}debug.log" filePattern="${BASE_DIR}${sys:file.separator}%d{yyyy-MM-dd}.debug-logs.zip">
             <PatternLayout pattern="${LOG_FORMAT}"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="15MB"/>                  <!-- 15MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
@@ -45,7 +45,7 @@
         </RollingFile>
 
         <!-- 에러 로그 파일-->
-        <RollingFile name="ERROR-Appneder" fileName="${BASE_DIR}/error.log" filePattern="${BASE_DIR}/%d{yyyy-MM-dd}.error-logs.zip">
+        <RollingFile name="ERROR-Appender" fileName="${BASE_DIR}${sys:file.separator}error.log" filePattern="${BASE_DIR}${sys:file.separator}%d{yyyy-MM-dd}.error-logs.zip">
             <PatternLayout pattern="${LOG_FORMAT}"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="15MB"/>                  <!-- 15MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
@@ -63,18 +63,18 @@
 
     <Loggers>
         <Root level="INFO">
-            <AppenderRef ref="Console-Appneder"/>
-            <AppenderRef ref="File-Appneder"/>
+            <AppenderRef ref="Console-Appender"/>
+            <AppenderRef ref="File-Appender"/>
         </Root>
 
         <!-- springframework에서 발생하는 DEBUG 출력 -->
         <Logger name="org.springframework" level="DEBUG" additivity="false">
-            <AppenderRef ref="DEBUG-Appneder"/>
+            <AppenderRef ref="DEBUG-Appender"/>
         </Logger>
 
         <!-- 내 패키지에서 발생하는 error 출력 -->
         <Logger name="com.bookbook" level="ERROR" additivity="false">
-            <AppenderRef ref="ERROR-Appneder"/>
+            <AppenderRef ref="ERROR-Appender"/>
         </Logger>
     </Loggers>
 </Configuration>

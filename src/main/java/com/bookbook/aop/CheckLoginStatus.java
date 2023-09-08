@@ -1,12 +1,14 @@
-package com.bookbook.annotation;
+package com.bookbook.aop;
 
+import com.bookbook.dto.user.UserRole;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface IfLogin {
+@Target(ElementType.METHOD)
+public @interface CheckLoginStatus {
+    UserRole auth() default UserRole.USER;
 }

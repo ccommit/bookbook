@@ -1,9 +1,8 @@
 package com.bookbook.controller;
 
 
-import com.bookbook.annotation.AdminLoginRequired;
-import com.bookbook.annotation.UserLoginRequired;
-import com.bookbook.annotation.IfLogin;
+import com.bookbook.argumentresolver.IfLogin;
+import com.bookbook.aop.CheckLoginStatus;
 import com.bookbook.dto.user.*;
 import com.bookbook.service.SessionLoginService;
 import com.bookbook.service.UserService;
@@ -43,7 +42,7 @@ public class UserController {
         return ResponseUtil.success(200, null);
     }
 
-    @UserLoginRequired
+    @CheckLoginStatus(auth = UserRole.USER)
     @PatchMapping("/me")
     public CommonResponse<Long> deleteUserOfMine(
             @RequestBody WithdrawalRequest withdrawalRequest,
@@ -53,27 +52,27 @@ public class UserController {
         return ResponseUtil.success(200, loginUser.getId());
     }
 
-    @AdminLoginRequired
+    @CheckLoginStatus(auth = UserRole.ADMIN)
     @PatchMapping("/{userId}")
     public CommonResponse<String> deleteUser(@PathVariable String userId) {
         userService.deleteUser(userId);
         return ResponseUtil.success(200, userId);
     }
 
-    @UserLoginRequired
+    @CheckLoginStatus(auth = UserRole.USER)
     @GetMapping("/me")
     public CommonResponse<UserProfileResponse> findUserProfile(@IfLogin LoginUser loginUser) {
         return ResponseUtil.success(200, userService.findUserProfile(loginUser));
     }
 
-    @UserLoginRequired
+    @CheckLoginStatus(auth = UserRole.USER)
     @PatchMapping("/me/password")
     public CommonResponse<Long> updatePassword(@IfLogin LoginUser loginUser, @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
         userService.updatePassword(loginUser, passwordUpdateRequest);
         return ResponseUtil.success(200, loginUser.getId());
     }
 
-    @UserLoginRequired
+    @CheckLoginStatus(auth = UserRole.USER)
     @PatchMapping("/me/introduce")
     public CommonResponse<Long> updateIntroduce(@IfLogin LoginUser loginUser, @RequestBody IntroduceUpdateRequest introduceUpdateRequest) {
         userService.updateIntroduce(loginUser, introduceUpdateRequest);
