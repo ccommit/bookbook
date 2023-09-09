@@ -1,4 +1,4 @@
-package com.bookbook.dto;
+package com.bookbook.dto.user;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

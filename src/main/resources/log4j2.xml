@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="30">
+    <!--변수 설정-->
+    <Properties>
+        <Property name="BASE_DIR">${sys:user.dir}${sys:file.separator}logs</Property> <!--로그 파일 경로-->
+        <Property name="LOG_FORMAT">[%date{yyyy-MM-dd HH:mm:ss}][%level][%file:%line] %msg%n</Property><!--로그 출력 형태-->
+    </Properties>
+
+    <Appenders>
+        <!-- 콘솔 로그-->
+        <Console name="Console-Appender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_FORMAT}"/>
+        </Console>
+
+        <!-- 로그 파일-->
+        <RollingFile name="File-Appender" fileName="${BASE_DIR}${sys:file.separator}info.log" filePattern="${BASE_DIR}${sys:file.separator}%d{yyyy-MM-dd}.log.zip">
+            <PatternLayout pattern="${LOG_FORMAT}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="15MB"/>                  <!-- 15MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/> <!-- 일별 로그 파일 생성-->
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${BASE_DIR}">
+                    <IfAccumulatedFileCount exceeds="4"/>   <!-- log 파일이 4개 이상일때 예전 log 파일 삭제 -->
+                    <IfFileName glob="*.log"/>   <!-- 삭제할 파일명 -->
+                    <IfLastModified age="3d"/>   <!-- 3일이 경과한 로그파일은 자동 삭제 -->
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 디버그 로그 파일-->
+        <RollingFile name="DEBUG-Appender" fileName="${BASE_DIR}${sys:file.separator}debug.log" filePattern="${BASE_DIR}${sys:file.separator}%d{yyyy-MM-dd}.debug-logs.zip">
+            <PatternLayout pattern="${LOG_FORMAT}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="15MB"/>                  <!-- 15MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/> <!-- 일별 로그 파일 생성-->
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${BASE_DIR}">
+                    <IfAccumulatedFileCount exceeds="4"/>   <!-- log 파일이 4개 이상일때 예전 log 파일 삭제 -->
+                    <IfFileName glob="*.log"/>   <!-- 삭제할 파일명 -->
+                    <IfLastModified age="3d"/>   <!-- 3일이 경과한 로그파일은 자동 삭제 -->
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+
+        <!-- 에러 로그 파일-->
+        <RollingFile name="ERROR-Appender" fileName="${BASE_DIR}${sys:file.separator}error.log" filePattern="${BASE_DIR}${sys:file.separator}%d{yyyy-MM-dd}.error-logs.zip">
+            <PatternLayout pattern="${LOG_FORMAT}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="15MB"/>                  <!-- 15MB 용량이 초과시 DefaultRolloverStrategy 정책만큼 넘버링 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/> <!-- 일별 로그 파일 생성-->
+            </Policies>
+            <DefaultRolloverStrategy>
+                <Delete basePath="${BASE_DIR}">
+                    <IfAccumulatedFileCount exceeds="4"/>   <!-- log 파일이 4개 이상일때 예전 log 파일 삭제 -->
+                    <IfFileName glob="*.log"/>   <!-- 삭제할 파일명 -->
+                    <IfLastModified age="3d"/>   <!-- 3일이 경과한 로그파일은 자동 삭제 -->
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="Console-Appender"/>
+            <AppenderRef ref="File-Appender"/>
+        </Root>
+
+        <!-- springframework에서 발생하는 DEBUG 출력 -->
+        <Logger name="org.springframework" level="DEBUG" additivity="false">
+            <AppenderRef ref="DEBUG-Appender"/>
+        </Logger>
+
+        <!-- 내 패키지에서 발생하는 error 출력 -->
+        <Logger name="com.bookbook" level="ERROR" additivity="false">
+            <AppenderRef ref="ERROR-Appender"/>
+        </Logger>
+    </Loggers>
+</Configuration>

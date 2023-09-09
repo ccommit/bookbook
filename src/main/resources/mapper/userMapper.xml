@@ -9,7 +9,39 @@
         VALUES (#{userId}, #{password}, #{introduce})
     </insert>
 
-    <select id="selectUserId" parameterType="java.lang.String" resultType="boolean">
-        SELECT EXISTS (SELECT 1 FROM user WHERE user_id = #{userId});
+    <select id="existsByUserId" parameterType="java.lang.String" resultType="boolean">
+        SELECT EXISTS (SELECT 1 FROM user WHERE user_id = #{userId})
     </select>
+
+    <select id="findByActiveUserId" parameterType="java.lang.String" resultType="com.bookbook.dto.user.UserInfo">
+        SELECT id, user_id, hashed_password, role, introduce
+        FROM user
+        WHERE user_id = #{userId}
+        AND withdrawal = 0
+    </select>
+
+    <update id="deleteUser" parameterType="java.lang.Long">
+        UPDATE user
+        SET withdrawal = 1
+        WHERE id = #{id}
+    </update>
+
+    <select id="findUserProfile" parameterType="LoginUser" resultType="com.bookbook.dto.user.UserProfileResponse">
+        SELECT user_id, introduce, created_at
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <update id="updatePassword" parameterType="LoginUser">
+        UPDATE user
+        SET hashed_password = #{hashedPassword}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateIntroduce" parameterType="LoginUser">
+        UPDATE user
+        SET introduce = #{introduce}
+        WHERE id = #{id}
+    </update>
+
 </mapper>
